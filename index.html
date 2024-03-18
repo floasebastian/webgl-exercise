@@ -1,0 +1,121 @@
+<html>
+<head>
+	<title>WebGL Exercise</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	html,body { 
+		height: 100%; 
+		min-height: 100%; 
+	}
+
+	body{
+		margin: 0px;
+		background-color: #F0F;
+		background-size: cover;
+	}
+
+	#start{
+		width:25%;
+		text-align: center;
+		font-size: 2em;
+		position:absolute;
+		z-index: 100;
+		color: white;
+		background: rgba(0,0,0,0.5);
+		transform:  translate(-50%, -50%); /*important*/
+		top:50%;
+		left:50%;
+		padding: 5%;
+	}
+
+	#main-canvas{
+		border: #0f0 solid 3px;
+		aspect-ratio: 16/9;
+		width: 100%;
+	}
+	</style>
+
+	<script type="text/javascript" src="js/glMatrix-0.9.5.min.js"></script>
+	<script type="text/javascript" src="js/shadersdata.js"></script>
+	<script type="text/javascript" src="js/modelsdata.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+</head>
+<body>
+	<input type = "file" id = "input-file" multiple>
+	<button id = "start" style="visibility:hidden;">Start</button> 
+	<div id = "display"></div>
+	
+	<canvas id="main-canvas"></canvas>
+
+	<script type="text/javascript">
+
+		var fileInput = document.getElementById("input-file");
+		var start = document.getElementById("start");
+		var display = document.getElementById("display");
+		var loadingTexturesProgress = 0;
+		var mainC = null;
+		
+		function handleFileSelect(evt){
+			fileInput.style.visibility = "hidden";
+			display.innerHTML = "";
+			for(var i = 0, file; file = fileInput.files[i]; i++){
+				var imageType = 'image.*';
+				if(file.type.match(imageType)){
+				 	var reader = new FileReader();
+				 	reader.onload = (function(theFile){
+				 		return function(e){
+				 			var img = new Image();
+				 			img.src = e.target.result;
+				 			img.id = theFile.name;
+				 			img.style.visibility="hidden";
+				 			display.appendChild(img);
+				 			loadingTexturesProgress += parseFloat(100.0/parseFloat(fileInput.files.length));
+				 			console.log("Texture::"+theFile.name + "::Ready ("+loadingTexturesProgress+"%)\n");
+				 			if(loadingTexturesProgress == 100.0){
+				 				start.style.visibility = "visible";
+				 			}
+				 		};
+				 	})(file);
+				 	reader.readAsDataURL(file);
+				}
+			}
+		}
+
+		function runMain(){
+			start.style.visibility = "hidden";
+			mainC = new main();
+		}
+		
+		function onKeyUp(evt){
+			//console.log("keyup");
+			if(mainC !== null){
+				mainC.key(evt, "keyup");
+			}
+		}
+		
+		function onKeyDown(evt){
+			//console.log("keydown");
+			if(mainC !== null){
+				mainC.key(evt, "keydown");	
+			}
+		}
+
+		function onKeyPress(evt){
+			//console.log("keypress");
+			if(mainC !== null){
+				mainC.key(evt, "keypress");	
+			}
+		}
+
+		function mouseC(e){
+		}
+
+		window.addEventListener("keydown", onKeyDown, false);
+		window.addEventListener("keyup", onKeyUp, false);
+		window.addEventListener("keypress", onKeyPress, false);
+		fileInput.addEventListener("change", handleFileSelect, false);
+		start.addEventListener("click", runMain, false);
+
+	</script>
+</body>
+</html>
