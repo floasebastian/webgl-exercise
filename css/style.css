@@ -1,0 +1,109 @@
+html, body 
+{ 
+	height: 100%; min-height: 100%; 
+}
+body{
+	font-family: 'Orbitron', 'Raleway', 'Consolas';
+	color: white;
+	margin: 0px;
+	background-color: black;
+	/*background-image: url("../Resources/Images/bg.jpg");*/
+	background-size: cover;
+}
+#welcome-screen{
+	width:50%;
+	text-align: center;
+	font-size: 1em;
+	position:absolute;
+	z-index: 100;
+	color: white;
+	background: rgba(0,0,0,0.5);
+	transform:  translate(-50%, -50%); /*important*/
+	top:50%;
+	left:50%;
+	padding: 5%;
+
+}
+
+#start-btn{
+	width:25%;
+	text-align: center;
+	font-size: 2em;
+	position:absolute;
+	z-index: 102;
+	color: white;
+	background: rgba(0,0,0,0.5);
+	transform:  translate(-50%, -50%); /*important*/
+	top:50%;
+	left:50%;
+	padding: 5%;
+}
+#main-canvas{
+	/*border: red solid 1px;*/
+}
+
+a{
+	color: tomato;
+	text-decoration: none;
+}
+img{
+	position: absolute;
+	top:0; left:0;
+	z-index: -100;
+	float: left;
+}
+header{
+	padding : 5px;
+	width:33.333%;
+}
+
+#help-desc{
+	visibility: hidden;
+}
+
+#main-control{
+	visibility: hidden;
+	position: absolute;
+	text-align: center;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	/*background-color: chartreuse;*/
+	top:50%;
+	left:50%;
+	z-index: 101;
+}
+
+#rot-buttons, #mov-buttons{
+	float:left;
+	width: 50%;
+	padding: 20px 0px;
+	/*background-color:blue;*/
+}
+
+.ctrl-btn{
+	width: 150px;
+	height: 150px;
+	text-align: center;
+	vertical-align: middle;
+	color: white;
+	background: rgba(0, 0, 0, 0.25);
+	border: 3px rgba(1,1,1,0.25); solid;
+	border-radius: 50%;
+	float :left;
+}
+
+.ctrl-btn:active{
+	background: rgba(0, 0, 0, 0.50);
+	border: 3px white solid;
+}
+
+.up-down{
+	width: 25%;
+	/*background-color: red;*/
+	float: left;
+	transform-origin: center;
+}
+
+.ud{
+	width:100%;
+}

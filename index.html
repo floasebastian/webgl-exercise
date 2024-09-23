@@ -2,120 +2,59 @@
 <head>
 	<title>WebGL Exercise</title>
 	<meta charset="utf-8">
-	<style type="text/css">
-	html,body { 
-		height: 100%; 
-		min-height: 100%; 
-	}
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway|Orbitron&effect=3d|fire-animation">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body onload = "handleFileSelect();">
+	<header>
+		<h1 class = "font-effect-3d">WebGL Experiment <em style="font-size: 0.5em; font-weight:lighter;">by: Flo Sebastian </em> </h1>
+		<div id = "main-help">
+			<div id = "help-desc">
+				move : A, S, W, D<br>
+				rotate : Arrow Keys<br>
+				misc. : 
+				<ul>
+					<li>Wireframe Toggle (Q)</li>
+					<li>Hey! (H)</li>
+				</ul>
+			</div>
+			<div id ="fps-cont">
+			</div>
+		</div>
+	</header>	
+	<div id = "welcome-screen">
+		<h2 class = "font-effect-3d">Please wait...</h2>
+		<!--p>Please note that this is a WebGL experiment. It's so experimently that this isn't fully documented and may still have some issues in the scripts, resources and system used. <br/>Sorry for the inconvenience way to load the textures because of the browsers security policy. Please, download them first <a href="Resources/Compresseds/Textures.zip" download>here</a>, and then load all the textures first via file input below:</p>
+		<input type = "file" id = "input-file" multiple-->	
+	</div>
 
-	body{
-		margin: 0px;
-		background-color: #F0F;
-		background-size: cover;
-	}
-
-	#start{
-		width:25%;
-		text-align: center;
-		font-size: 2em;
-		position:absolute;
-		z-index: 100;
-		color: white;
-		background: rgba(0,0,0,0.5);
-		transform:  translate(-50%, -50%); /*important*/
-		top:50%;
-		left:50%;
-		padding: 5%;
-	}
-
-	#main-canvas{
-		border: #0f0 solid 3px;
-		aspect-ratio: 16/9;
-		width: 100%;
-	}
-	</style>
-
+	
+	<button id = "start-btn" style="visibility:hidden;">Start</button> 
+	<div id = "display"></div>
+	<canvas id="main-canvas"></canvas>
+	<div id="main-control">
+		<div id="rot-buttons">
+			<button class="ctrl-btn" id="btn-rot-left">&#x21B6;</button>
+			<span class="up-down">
+				<button class="ctrl-btn ud" id="btn-rot-up">&uarr;</button><br>
+				<button class="ctrl-btn ud" id="btn-rot-down">&darr;</button>
+			</span>
+			<button class="ctrl-btn" id="btn-rot-right">&#x21B7;</button>
+		</div>
+		<div id="mov-buttons">
+			<button class="ctrl-btn" id="btn-mov-left">&#9668;</button>
+			<span class="up-down">
+				<button class="ctrl-btn ud" id="btn-mov-up">&#9650;</button><br>
+				<button class="ctrl-btn ud" id="btn-mov-down">&#9660;</button>
+			</span>
+			<button class="ctrl-btn" id="btn-mov-right">&#9658;</button>
+		</div>
+	</div>
 	<script type="text/javascript" src="js/glMatrix-0.9.5.min.js"></script>
 	<script type="text/javascript" src="js/shadersdata.js"></script>
 	<script type="text/javascript" src="js/modelsdata.js"></script>
-	<script type="text/javascript" src="js/script.js"></script>
-</head>
-<body>
-	<input type = "file" id = "input-file" multiple>
-	<button id = "start" style="visibility:hidden;">Start</button> 
-	<div id = "display"></div>
-	
-	<canvas id="main-canvas"></canvas>
-
-	<script type="text/javascript">
-
-		var fileInput = document.getElementById("input-file");
-		var start = document.getElementById("start");
-		var display = document.getElementById("display");
-		var loadingTexturesProgress = 0;
-		var mainC = null;
-		
-		function handleFileSelect(evt){
-			fileInput.style.visibility = "hidden";
-			display.innerHTML = "";
-			for(var i = 0, file; file = fileInput.files[i]; i++){
-				var imageType = 'image.*';
-				if(file.type.match(imageType)){
-				 	var reader = new FileReader();
-				 	reader.onload = (function(theFile){
-				 		return function(e){
-				 			var img = new Image();
-				 			img.src = e.target.result;
-				 			img.id = theFile.name;
-				 			img.style.visibility="hidden";
-				 			display.appendChild(img);
-				 			loadingTexturesProgress += parseFloat(100.0/parseFloat(fileInput.files.length));
-				 			console.log("Texture::"+theFile.name + "::Ready ("+loadingTexturesProgress+"%)\n");
-				 			if(loadingTexturesProgress == 100.0){
-				 				start.style.visibility = "visible";
-				 			}
-				 		};
-				 	})(file);
-				 	reader.readAsDataURL(file);
-				}
-			}
-		}
-
-		function runMain(){
-			start.style.visibility = "hidden";
-			mainC = new main();
-		}
-		
-		function onKeyUp(evt){
-			//console.log("keyup");
-			if(mainC !== null){
-				mainC.key(evt, "keyup");
-			}
-		}
-		
-		function onKeyDown(evt){
-			//console.log("keydown");
-			if(mainC !== null){
-				mainC.key(evt, "keydown");	
-			}
-		}
-
-		function onKeyPress(evt){
-			//console.log("keypress");
-			if(mainC !== null){
-				mainC.key(evt, "keypress");	
-			}
-		}
-
-		function mouseC(e){
-		}
-
-		window.addEventListener("keydown", onKeyDown, false);
-		window.addEventListener("keyup", onKeyUp, false);
-		window.addEventListener("keypress", onKeyPress, false);
-		fileInput.addEventListener("change", handleFileSelect, false);
-		start.addEventListener("click", runMain, false);
-
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/window.js">
 	</script>
 </body>
 </html>
